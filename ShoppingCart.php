@@ -27,7 +27,7 @@ class ShoppingCart implements Iterator
 
     public function current() 
     {
-       return $this->cartItems;
+       return $this->cartItems[$this->position];
     }
 
 
@@ -54,17 +54,19 @@ class ShoppingCart implements Iterator
     
     public function append(CartItem $item) : void
     {
-        $this->cartItems = $item;
+        $this->cartItems[]= $item;
     }
 
-    public function getCartItems() 
+    public function getCartItems() : mixed
     {
-        return $this->current();
+
+        return $this->cartItems;
     }
 
 
     public function pay(PaymentStrategy $payment) : void
     {
-        $payment->pay();
+
+       $payment->pay($this->getCartItems()[$this->position]->getPrice());
     }
 }

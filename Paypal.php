@@ -15,7 +15,6 @@ class Paypal implements PaymentStrategy
 
     public function pay($price)
     {
-        $price = (float)$price;
         echo "Thank you {$this->getUsername()} for paying $price through PayPal.";
     }
 

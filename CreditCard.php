@@ -17,7 +17,6 @@ class CreditCard implements PaymentStrategy
 
     public function pay($price)
     {
-        $price = (float)$price;
         echo "Paying $price using Credit Card";
     }
 }

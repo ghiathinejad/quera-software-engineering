@@ -8,14 +8,13 @@ use Strategy\PaymentStrategy;
 class ShoppingCart implements Iterator
 {
 
-    private $position ;
+    private $position;
 
     private $cartItems = [];
-    
-    public function __construct( )
+
+    public function __construct()
     {
         $this->position = 0;
-       
     }
 
 
@@ -25,13 +24,13 @@ class ShoppingCart implements Iterator
     }
 
 
-    public function current() 
+    public function current()
     {
-       return $this->cartItems[$this->position];
+        return $this->cartItems[$this->position];
     }
 
 
-    public function key() : int
+    public function key(): int
     {
         return $this->position;
     }
@@ -47,26 +46,34 @@ class ShoppingCart implements Iterator
         return isset($this->cartItems[$this->position]);
     }
 
-    public function getCartTotal() : int
+    public function getCartTotal(): int
     {
         return count($this->cartItems);
     }
-    
-    public function append(CartItem $item) : void
+
+    public function append(CartItem $item): void
     {
-        $this->cartItems[]= $item;
+        $this->cartItems[] = $item;
     }
 
-    public function getCartItems() : mixed
+    public function getCartItems(): mixed
     {
 
         return $this->cartItems;
     }
 
 
-    public function pay(PaymentStrategy $payment) : void
+    public function pay(PaymentStrategy $payment): void
     {
+        $items = $this->getCartItems();
+        
+        $getPrices = array_map(function ($item) {
+            
+             return $item->getPrice();
+            
+        }, $items);
 
-       $payment->pay($this->getCartItems()[$this->position]->getPrice());
+        $totalAmount = array_sum($getPrices);
+        $payment->pay($totalAmount);
     }
 }

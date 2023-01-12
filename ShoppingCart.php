@@ -46,9 +46,18 @@ class ShoppingCart implements Iterator
         return isset($this->cartItems[$this->position]);
     }
 
-    public function getCartTotal(): int
+    public function getCartTotal(): float
     {
-        return count($this->cartItems);
+        $items = $this->getCartItems();
+        
+        $getPrices = array_map(function ($item) {
+            
+             return $item->getPrice();
+            
+        }, $items);
+
+        $total = array_sum($getPrices);
+        return $total;
     }
 
     public function append(CartItem $item): void
@@ -65,15 +74,7 @@ class ShoppingCart implements Iterator
 
     public function pay(PaymentStrategy $payment): void
     {
-        $items = $this->getCartItems();
-        
-        $getPrices = array_map(function ($item) {
-            
-             return $item->getPrice();
-            
-        }, $items);
-
-        $totalAmount = array_sum($getPrices);
-        $payment->pay($totalAmount);
+        $total = $this->getCartTotal();
+        $payment->pay($total);
     }
 }

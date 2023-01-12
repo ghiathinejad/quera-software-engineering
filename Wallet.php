@@ -2,6 +2,7 @@
 
 namespace Strategy;
 
+use SebastianBergmann\CodeCoverage\Report\PHP;
 use Strategy\PaymentStrategy;
 
 class Wallet implements PaymentStrategy
@@ -14,7 +15,13 @@ class Wallet implements PaymentStrategy
     {
 
         if (($price < $this->amount) or ($price === $this->getAmount()))
+        {
             echo "Paying $price using Wallet";
+            
+            $this->setAmountAfterPay($price);
+            
+        }
+           
         else
             echo 'Wallet: Insufficient inventory!';
     }
@@ -28,4 +35,10 @@ class Wallet implements PaymentStrategy
     {
         return $this->amount;
     }
+    
+    public function setAmountAfterPay(float $price): float
+    {
+        return $this->amount -= $price;
+    }
+
 }

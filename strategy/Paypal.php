@@ -23,6 +23,11 @@ class Paypal implements PaymentStrategy{
     public function pay($price)
     {
         $price = (float)$price;
-        echo "Thank you {$this->username} for paying {$price} through PayPal.".PHP_EOL;
+        echo  "Thank you {$this->username} for paying {$price} through PayPal.";
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 }

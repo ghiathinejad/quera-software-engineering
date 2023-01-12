@@ -76,8 +76,20 @@ class ShoppingCart implements \Iterator
         $this->cartItems[] = $carItem;
     }
 
-    public function getCartTotal(): int
+    public function getCartTotal(): float
     {
-        return count($this->cartItems);
+        $cars = $this->getCartItems();
+        $amount = 0;
+        foreach ($cars as $car){
+            $amount += (float)$car->getPrice();
+        }
+
+        return $amount;
+    }
+
+
+    public function pay(PaymentStrategy $payment)
+    {
+        $payment->pay($this->getCartTotal());
     }
 }

@@ -4,6 +4,6 @@ class SocialFacade extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return ('social');
+        return ('Social');
     }
 }
